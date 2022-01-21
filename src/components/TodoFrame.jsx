@@ -5,20 +5,38 @@ import { TodoList } from "./TodoList";
 export const TodoFrame = (props) => {
   const initialTodos = [
     {
-      id: 1234,
-      text: "공부하기",
+      id: "1hsh234",
+      text: "출석체크",
       state: false,
       editState: false,
     },
     {
-      id: 12345,
+      id: "1sdg2345",
       text: "운동하기",
       state: false,
       editState: false,
     },
     {
-      id: 123456,
+      id: "123fdgdf456",
       text: "글쓰기",
+      state: true,
+      editState: false,
+    },
+    {
+      id: "13sagd234",
+      text: "공부하기",
+      state: false,
+      editState: false,
+    },
+    {
+      id: "123fdg45",
+      text: "놀기",
+      state: false,
+      editState: false,
+    },
+    {
+      id: "123ag456",
+      text: "게임하기",
       state: true,
       editState: false,
     },
@@ -65,10 +83,10 @@ export const TodoFrame = (props) => {
   };
 
   const changeEditState = (id) => {
-    const editInputText = todos
+    const [editInputText] = todos
       .filter((todo) => todo.id === id)
-      .map((todo) => todo.text)
-      .toString();
+      .map((todo) => todo.text);
+
     if (editInputText !== "") {
       setTodos(
         todos.map((todo) =>
@@ -84,6 +102,14 @@ export const TodoFrame = (props) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const setDrageTodoItem = (startTagIndex, destinationTagIndex) => {
+    const startTagValue = todos[startTagIndex];
+    const startTagArray = todos.filter((todo) => todo.id === startTagValue.id);
+    const todoArray = todos.filter((todo) => todo.id !== startTagValue.id);
+    todoArray.splice(destinationTagIndex, 0, ...startTagArray);
+    setTodos([...todoArray]);
+  };
+
   return (
     <div className="todo-frame">
       <TodoInput
@@ -92,6 +118,7 @@ export const TodoFrame = (props) => {
         addTodo={addTodo}
       />
       <TodoList
+        setDrageTodoItem={setDrageTodoItem} //dnd set
         todos={todos}
         inputText={inputText}
         changeState={changeState}
